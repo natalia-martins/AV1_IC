@@ -18,10 +18,10 @@ Este projeto visa treinar o dinossauro do jogo T-Rex do Google usando algoritmos
 
 ### Instalação
 1. Clone o repositório:
-``` git clone https://github.com/SEU_USUARIO/nome-do-repositorio.git ```
+``` git clone https://github.com/natalia-martins/TrainingTAIC.git ```
 
 2. Navegue até o diretório do projeto:
-``` cd nome-do-repositorio ```
+``` cd TrainingTAIC ```
 
 3. Instale as dependências:
 ``` pip install -r requirements.txt ```
@@ -50,9 +50,6 @@ Se desejar contribuir para o projeto, siga estes passos:
 2. Crie uma branch para sua feature ou correção.
 3. Faça suas alterações e adicione testes, se aplicável.
 4. Envie um pull request descrevendo suas mudanças.
-
-### Licença
-Este projeto é licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
 
 ### Contato
 Para dúvidas ou sugestões, entre em contato com natalia.santos@aln.senaicimetec.edu.br
