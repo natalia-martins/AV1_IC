@@ -51,5 +51,9 @@ Se desejar contribuir para o projeto, siga estes passos:
 3. Faça suas alterações e adicione testes, se aplicável.
 4. Envie um pull request descrevendo suas mudanças.
 
+### Links Importantes:
+Repositório T-Rex: https://github.com/turing-usp/chrome-trex-rush/blob/master/README.md
+Template de repositório: https://github.com/ArielMAJ/python-repository-template
+
 ### Contato
 Para dúvidas ou sugestões, entre em contato com natalia.santos@aln.senaicimetec.edu.br
