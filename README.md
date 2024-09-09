@@ -10,7 +10,7 @@ Este projeto visa treinar o dinossauro do jogo T-Rex do Google usando algoritmos
 ### Estrutura do Projeto
 - ``` src/ ```
     - ``` genetic_algorithm.py ```: Implementação do algoritmo genético.
-    - ``` dino_agent.py ```: Definição da classe DinoAgent.
+    - ``` dino_agent.py ```: Definição da classe ``` DinoAgent ```.
 - ``` tests/ ```
     - Testes unitários para o código.
 - ``` docs/ ```
