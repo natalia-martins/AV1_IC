@@ -1,51 +1,58 @@
-# Training T. Rex Rush
-Work developed for the evaluation of Unit 01 of the discipline Advanced Topics in Computational Intelligence, taught by Professor Ariel at SENAI CIMATEC.
+# Treinamento do Dinossauro do Jogo T-Rex com Algoritmos Genéticos
+Este projeto visa treinar o dinossauro do jogo T-Rex do Google usando algoritmos genéticos. O objetivo é evoluir agentes (dinossauros) para melhorar seu desempenho no jogo ao longo de várias gerações.
 
-If you use Windows, use chocolatey for installing things
-chocolatey installation guide
+### Requisitos
+- Python 3
+- Bibliotecas necessárias:
+    - ``` chrome-trex-rush ``` (para interação com o jogo T-Rex)
+    - ``` numpy ``` (para operações matemáticas)
 
-Use pyenv for Python version management
+### Estrutura do Projeto
+- ``` src/ ```
+    - ``` genetic_algorithm.py ```: Implementação do algoritmo genético.
+    - ``` dino_agent.py ```: Definição da classe DinoAgent.
+- ``` tests/ ```
+    - Testes unitários para o código.
+- ``` docs/ ```
+    - Documentação do projeto e instruções de uso.
 
-pyenv installation guide
+### Instalação
+1. Clone o repositório:
+``` git clone https://github.com/SEU_USUARIO/nome-do-repositorio.git ```
 
-```curl https://pyenv.run | bash
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
-echo 'eval "$(pyenv init -)"' >> ~/.profile
-exit```
+2. Navegue até o diretório do projeto:
+``` cd nome-do-repositorio ```
 
-In another shell:
+3. Instale as dependências:
+``` pip install -r requirements.txt ```
 
-```pyenv update
-pyenv install 3.9.13
-pyenv rehash
-pyenv global 3.9.13
-exit```
+### Uso
+#### Configuração Inicial
+Antes de executar o algoritmo genético, certifique-se de que a biblioteca chrome-trex-rush está corretamente configurada. Consulte a documentação da biblioteca para obter detalhes sobre a configuração.
 
-Use make for simplifing commands and making it explicit how to run your code
-make documentation
+#### Executando o Algoritmo Genético
+1. Execute o script principal para iniciar o treinamento:
+``` python src/genetic_algorithm.py ```
 
-Use poetry for managing Python dependencies
+2. O algoritmo genético começará a treinar os agentes (dinossauros). Você verá a evolução dos agentes ao longo das gerações, conforme medido pela função de aptidão.
 
-Poetry is a tool for dependency management and packaging in Python. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you. Poetry offers a lockfile to ensure repeatable installs, and can build your project for distribution.
+#### Funções
+- ``` DinoAgent ```: Classe que representa um dinossauro no jogo T-Rex. Possui genes que determinam seu comportamento e uma função de aptidão que avalia seu desempenho.
+- ``` genetic_algorithm ```: Função principal que executa o algoritmo genético, incluindo seleção, cruzamento e mutação de agentes.
 
-Basic commands:
+#### Testes
+Execute os testes unitários para garantir que o código esteja funcionando corretamente:
+``` pytest ```
 
-```Add new dependency: poetry add <package>
-Install dependencies: poetry install
-Update dependencies: poetry update
-Remove dependencies: poetry remove <package>
-Run a command in the virtual environment: poetry run <command>
-Run python in the virtual environment: poetry run python <command>```
+#### Contribuição
+Se desejar contribuir para o projeto, siga estes passos:
+1. Faça um fork do repositório.
+2. Crie uma branch para sua feature ou correção.
+3. Faça suas alterações e adicione testes, se aplicável.
+4. Envie um pull request descrevendo suas mudanças.
 
-Make sure to use the Makefile to facilitate the usage of your repository
+### Licença
+Este projeto é licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
 
-Anyone that clones your repository should be able to relatively easily run your code with just a few commands. The Makefile should contain the following commands:
-
-```make install
-make run
-Use pre-commit for running checks before committing
-pre-commit is a framework for managing and maintaining multi-language pre-commit hooks. It is a client-side hook manager that can be used to automate checks before committing code. It is recommended to use pre-commit to ensure code formatting, among other things.```
+### Contato
+Para dúvidas ou sugestões, entre em contato com natalia.santos@aln.senaicimetec.edu.br
