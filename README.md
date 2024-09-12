@@ -83,5 +83,7 @@ Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 <br>
 
 ### 🔹 Contato
-Para dúvidas ou sugestões, entre em contato com natalia.santos@aln.senaicimetec.edu.br
+Para dúvidas ou sugestões, entre em contato com:
+- 👩‍💻 natalia.santos@aln.senaicimetec.edu.br
+- 👩‍💻 nathalia.leite@ba.estudante.senai.br
 <h1 align="center">
