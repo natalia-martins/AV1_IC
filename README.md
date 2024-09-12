@@ -1,4 +1,4 @@
-# Treinamento do Dinossauro do Jogo T-Rex Rush com Algoritmos Genéticos
+# Treinamento do Dinossauro no T-Rex Rush Usando Algoritmos Genéticos
 ### Sobre o projeto
 Esse projeto visa treinar o dinossauro do jogo T-Rex Rush do Google usando algoritmos genéticos. 
 
