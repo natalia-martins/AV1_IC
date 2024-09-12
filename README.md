@@ -5,9 +5,6 @@ Esse projeto visa treinar o dinossauro do jogo T-Rex Rush do Google usando algor
 ### Objetivo do projeto 
 O objetivo é evoluir agentes (dinossauros) para melhorar seu desempenho no jogo ao longo de várias gerações, como no exemplo da imagem abaixo:
 
-![image](https://github.com/user-attachments/assets/a8247deb-dd7e-4318-a677-941fda254ef7)
-
-![image](https://github.com/user-attachments/assets/379ecd26-e7c5-4180-82cb-7a03d7b7cd1d)
 
 
 ### Requisitos
