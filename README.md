@@ -8,13 +8,14 @@ Esse projeto visa treinar o dinossauro do jogo T-Rex Rush do Google usando algor
 ### Objetivo do projeto 
 O objetivo é evoluir agentes (dinossauros) para melhorar seu desempenho no jogo ao longo de várias gerações, como no exemplo da imagem abaixo:
 
-
-
 ### Requisitos
 - Python 3
 - Bibliotecas necessárias:
     - ``` chrome-trex-rush (trex-rush-evolutionary-algorithm) ``` (para interação com o jogo T-Rex)
     - ``` numpy ``` (para operações matemáticas)
+          ´´´ git clone https://github.com/GrupoTuringCodes/chrome-trex-rush ´´´
+          ´´´ cd chrome-trex-rush ´´´
+          ´´´ pip install chrome-trex-rush/ ´´´
 
 ### Estrutura do Projeto
 - ``` src/ ```
