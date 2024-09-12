@@ -10,7 +10,7 @@ O objetivo é evoluir agentes (dinossauros) para melhorar seu desempenho no jogo
 ### Requisitos
 - Python 3
 - Bibliotecas necessárias:
-    - ``` chrome-trex-rush ``` (para interação com o jogo T-Rex)
+    - ``` chrome-trex-rush (trex-rush-evolutionary-algorithm) ``` (para interação com o jogo T-Rex)
     - ``` numpy ``` (para operações matemáticas)
 
 ### Estrutura do Projeto
