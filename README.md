@@ -19,7 +19,7 @@ Evoluir agentes dinossauros para maximizar sua performance no jogo T-Rex Rush ao
 
 ### 🔹 Requisitos
 - Python 3
-- Bibliotecas necessárias para interação com o jogo R-Rex:
+- Bibliotecas necessárias para interação com o jogo T-Rex:
     - ``` git clone https://github.com/GrupoTuringCodes/chrome-trex-rush ``` 
     - ``` cd chrome-trex-rush  ``` 
     - ``` pip install chrome-trex-rush/  ```
