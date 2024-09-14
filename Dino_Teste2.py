@@ -26,6 +26,173 @@ jump_sound = pygame.mixer.Sound('sprites/jump.wav')
 die_sound = pygame.mixer.Sound('sprites/die.wav')
 checkPoint_sound = pygame.mixer.Sound('sprites/checkPoint.wav')
 
+
+# Função auxiliar para carregar imagem
+def load_image(name, sizex=-1, sizey=-1, colorkey=None):
+    fullname = os.path.join('sprites', name)
+    image = pygame.image.load(fullname)
+    image = image.convert()
+    if colorkey is not None:
+        if colorkey == -1:
+            colorkey = image.get_at((0, 0))
+        image.set_colorkey(colorkey, RLEACCEL)
+
+    if sizex != -1 or sizey != -1:
+        image = pygame.transform.scale(image, (sizex, sizey))
+
+    return image, image.get_rect()
+
+
+# Função auxiliar para carregar spritesheets
+def load_sprite_sheet(sheetname, nx, ny, scalex=-1, scaley=-1, colorkey=None):
+    fullname = os.path.join('sprites', sheetname)
+    sheet = pygame.image.load(fullname)
+    sheet = sheet.convert()
+
+    sheet_rect = sheet.get_rect()
+    sprites = []
+    sizex = sheet_rect.width / nx
+    sizey = sheet_rect.height / ny
+
+    for i in range(ny):
+        for j in range(nx):
+            rect = pygame.Rect((j * sizex, i * sizey, sizex, sizey))
+            image = pygame.Surface(rect.size)
+            image = image.convert()
+            image.blit(sheet, (0, 0), rect)
+
+            if colorkey is not None:
+                if colorkey == -1:
+                    colorkey = image.get_at((0, 0))
+                image.set_colorkey(colorkey, RLEACCEL)
+
+            # Apenas escala se os valores scalex e scaley forem válidos
+            if scalex > 0 and scaley > 0:
+                image = pygame.transform.scale(image, (scalex, scaley))
+
+            sprites.append(image)
+
+    sprite_rect = sprites[0].get_rect()
+    return sprites, sprite_rect
+
+def extractDigits(number):
+    if number > -1:
+        digits = []
+        while number / 10 != 0:
+            digits.append(number % 10)
+            number = int(number / 10)
+        digits.append(number % 10)
+        while len(digits) < 5:
+            digits.append(0)
+        digits.reverse()
+        return digits
+
+class Scoreboard():
+    def __init__(self, x=-1, y=-1):
+        self.score = 0
+        self.tempimages, self.temprect = load_sprite_sheet('numbers.png', 12, 1, 11, int(11 * 6 / 5), -1)
+        self.image = pygame.Surface((55, int(11 * 6 / 5)))
+        self.rect = self.image.get_rect()
+        if x == -1:
+            self.rect.left = width * 0.89
+        else:
+            self.rect.left = x
+        if y == -1:
+            self.rect.top = height * 0.1
+        else:
+            self.rect.top = y
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self, score):
+        score_digits = extractDigits(score)
+        self.image.fill(background_col)
+        for s in score_digits:
+            self.image.blit(self.tempimages[s], self.temprect)
+            self.temprect.left += self.temprect.width
+        self.temprect.left = 0
+class Ground():
+    def __init__(self, speed=-5):
+        self.image, self.rect = load_image('ground.png', -1, -1, -1)
+        self.image1, self.rect1 = load_image('ground.png', -1, -1, -1)
+        self.rect.bottom = height
+        self.rect1.bottom = height
+        self.rect1.left = self.rect.right
+        self.speed = speed
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+        screen.blit(self.image1, self.rect1)
+
+    def update(self):
+        self.rect.left += self.speed
+        self.rect1.left += self.speed
+
+        if self.rect.right < 0:
+            self.rect.left = self.rect1.right
+
+        if self.rect1.right < 0:
+            self.rect1.left = self.rect.right
+
+
+class Cactus(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('cacti-small.png', 3, 1, sizex, sizey, -1)
+        self.rect.bottom = int(0.98 * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[random.randrange(0, 3)]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+        if self.rect.right < 0:
+            self.kill()
+
+class Ptera(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('ptera.png', 2, 1, sizex, sizey, -1)
+        self.ptera_height = [height * 0.82, height * 0.75, height * 0.60]
+        self.rect.centery = self.ptera_height[random.randrange(0, 3)]
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+        self.index = 0
+        self.counter = 0
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        if self.counter % 10 == 0:
+            self.index = (self.index + 1) % 2
+        self.image = self.images[self.index]
+        self.rect = self.rect.move(self.movement)
+        self.counter += 1
+        if self.rect.right < 0:
+            self.kill()
+
+class Cloud(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.image, self.rect = load_image('cloud.png', int(90 * 30 / 42), 30, -1)
+        self.rect.left = x
+        self.rect.top = y
+        self.movement = [-1, 0]  # Movimento da nuvem para a esquerda
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+        if self.rect.right < 0:
+            self.kill()  # Remove a nuvem se ela sair da tela
+
 # Classe Dino original
 class Dino():
     def __init__(self, sizex=-1, sizey=-1):
@@ -96,6 +263,7 @@ class Dino():
 
         self.counter = (self.counter + 1)
 
+
 # Classe DinoGA para os dinossauros com algoritmo genético
 class DinoGA(Dino):
     def __init__(self, sizex=-1, sizey=-1, color=None):
@@ -120,8 +288,13 @@ class DinoGA(Dino):
 
     def decide_jump(self, obstacle_distance):
         """Decide se o dinossauro deve pular com base nos pesos e na distância do obstáculo"""
+        # Garantir que só pule quando realmente necessário
         weighted_sum = self.weights[0] * obstacle_distance + self.weights[1]
-        return weighted_sum > 0
+        
+        # Limite o pulo para quando a distância for significativa e evite pulos incontroláveis
+        if obstacle_distance > 0 and weighted_sum > 1.5:  # Ajuste o limite aqui
+            return True
+        return False
 
     def draw(self):
         if self.is_best:
@@ -129,6 +302,8 @@ class DinoGA(Dino):
         else:
             screen.blit(self.image, self.rect)
 
+
+# Classe GeneticAlgorithm para controlar a população
 class GeneticAlgorithm:
     def __init__(self, population_size=3, mutation_rate=0.01, generations=50):
         self.population_size = population_size
@@ -172,6 +347,7 @@ class GeneticAlgorithm:
             json.dump(best_weights.tolist(), f)
 
 
+# Função de gameplay para executar o algoritmo genético
 def gameplay_ga(ga):
     global high_score
     gamespeed = 4
@@ -205,12 +381,13 @@ def gameplay_ga(ga):
             # Atualiza dinossauros
             for dino in ga.population:
                 obstacle_distance = min([c.rect.left - dino.rect.right for c in cacti] or [float('inf')])
-                if dino.decide_jump(obstacle_distance):
-                    if dino.rect.bottom == int(0.98 * height):
-                        dino.isJumping = True
-                        if pygame.mixer.get_init() != None:
-                            jump_sound.play()
-                        dino.movement[1] = -1 * dino.jumpSpeed
+                
+                # Verificar se o dinossauro já está no chão antes de permitir um novo pulo
+                if not dino.isJumping and dino.decide_jump(obstacle_distance):
+                    dino.isJumping = True
+                    if pygame.mixer.get_init() != None:
+                        jump_sound.play()
+                    dino.movement[1] = -1 * dino.jumpSpeed
 
                 dino.update()
 
@@ -263,7 +440,7 @@ def gameplay_ga(ga):
 
     pygame.quit()
 
-
+# Função principal para executar o jogo com algoritmo genético
 def main_ga():
     ga = GeneticAlgorithm()
     gameplay_ga(ga)
