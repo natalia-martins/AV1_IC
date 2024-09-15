@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import pygame
@@ -7,6 +8,8 @@ from pygame import *
 
 pygame.mixer.pre_init(44100, -16, 2, 2048)  # fix audio delay
 pygame.init()
+
+sprite_folder = os.path.join(os.getcwd(), 'sprites')
 
 scr_size = (width, height) = (600, 150)
 FPS = 60
@@ -22,10 +25,19 @@ screen = pygame.display.set_mode(scr_size)
 clock = pygame.time.Clock()
 pygame.display.set_caption("T-Rex Rush")
 
-jump_sound = pygame.mixer.Sound('sprites/jump.wav')
-die_sound = pygame.mixer.Sound('sprites/die.wav')
-checkPoint_sound = pygame.mixer.Sound('sprites/checkPoint.wav')
+# Função para carregar som com verificação se o arquivo existe
+def load_sound(sound_file):
+    sound_path = os.path.join(sprite_folder, sound_file)
+    if os.path.exists(sound_path):
+        return pygame.mixer.Sound(sound_path)
+    else:
+        print(f"Arquivo de som não encontrado: {sound_path}")
+        return None
 
+# Carregando os sons usando a função load_sound
+jump_sound = load_sound('jump.wav')
+die_sound = load_sound('die.wav')
+checkPoint_sound = load_sound('checkPoint.wav')
 
 # Função auxiliar para carregar imagem
 def load_image(name, sizex=-1, sizey=-1, colorkey=None):
@@ -41,7 +53,6 @@ def load_image(name, sizex=-1, sizey=-1, colorkey=None):
         image = pygame.transform.scale(image, (sizex, sizey))
 
     return image, image.get_rect()
-
 
 # Função auxiliar para carregar spritesheets
 def load_sprite_sheet(sheetname, nx, ny, scalex=-1, scaley=-1, colorkey=None):
@@ -89,6 +100,8 @@ def extractDigits(number):
 
 class Scoreboard():
     def __init__(self, x=-1, y=-1):
+        self.screen = screen
+        self.font = pygame.font.Font(None, 36)  # Definir o estilo da fonte
         self.score = 0
         self.tempimages, self.temprect = load_sprite_sheet('numbers.png', 12, 1, 11, int(11 * 6 / 5), -1)
         self.image = pygame.Surface((55, int(11 * 6 / 5)))
@@ -102,6 +115,10 @@ class Scoreboard():
         else:
             self.rect.top = y
 
+    def display_score(self, score, position):
+        score_text = self.font.render(f'Score: {score}', True, (255, 255, 255))  # Cor branca
+        self.screen.blit(score_text, position)  # Desenhar o texto na tela na posição fornecida
+
     def draw(self):
         screen.blit(self.image, self.rect)
 
@@ -112,6 +129,7 @@ class Scoreboard():
             self.image.blit(self.tempimages[s], self.temprect)
             self.temprect.left += self.temprect.width
         self.temprect.left = 0
+
 class Ground():
     def __init__(self, speed=-5):
         self.image, self.rect = load_image('ground.png', -1, -1, -1)
@@ -134,7 +152,6 @@ class Ground():
 
         if self.rect1.right < 0:
             self.rect1.left = self.rect.right
-
 
 class Cactus(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
@@ -196,8 +213,9 @@ class Cloud(pygame.sprite.Sprite):
 # Classe Dino original
 class Dino():
     def __init__(self, sizex=-1, sizey=-1):
-        self.images, self.rect = load_sprite_sheet('dino.png', 5, 1, sizex, sizey, -1)
-        self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png', 2, 1, 59, sizey, -1)
+        pygame.sprite.Sprite.__init__(self)
+        self.images, self.rect = load_sprite_sheet('dino.png', 5, 1, 44, 47, -1) # Imagens normais do dino
+        self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png', 2, 1, 59, 30, -1) # Imagens do dino abaixado
         self.rect.bottom = int(0.98 * height)
         self.rect.left = width / 15
         self.image = self.images[0]
@@ -215,6 +233,14 @@ class Dino():
 
     def draw(self):
         screen.blit(self.image, self.rect)
+
+    def duck(self):
+        self.isDucking = True
+        self.rect = self.duck_rect  # Ajusta o tamanho da caixa de colisão
+
+    def stand_up(self):
+        self.isDucking = False
+        self.rect = self.rect.inflate(self.stand_pos_width, self.rect.height)
 
     def checkbounds(self):
         if self.rect.bottom > int(0.98 * height):
@@ -263,7 +289,6 @@ class Dino():
 
         self.counter = (self.counter + 1)
 
-
 # Classe DinoGA para os dinossauros com algoritmo genético
 class DinoGA(Dino):
     def __init__(self, sizex=-1, sizey=-1, color=None):
@@ -271,6 +296,7 @@ class DinoGA(Dino):
         self.color = color
         self.weights = np.random.randn(2)  # Pesos aleatórios iniciais para controle
         self.is_best = False  # Para distinguir o melhor dinossauro
+        self.score = 0 # Inicializa a pontuação do dinossauro
 
     def mutate(self, mutation_rate=0.01):
         """Mutação simples, alterando os pesos"""
@@ -301,7 +327,40 @@ class DinoGA(Dino):
             pygame.draw.rect(screen, (255, 0, 0), self.rect, 2)  # O melhor dinossauro tem borda vermelha
         else:
             screen.blit(self.image, self.rect)
+    
+    def update(self):
+        if self.isJumping:
+            self.movement[1] += gravity
 
+        if self.isJumping:
+            self.index = 0
+        else:
+            if self.isDucking:
+                if self.counter % 5 == 0:
+                    self.index = (self.index + 1) % 2
+            else:
+                if self.counter % 5 == 0:
+                    self.index = (self.index + 1) % 2 + 2
+
+        if self.isDead:
+            self.index = 4
+
+        if not self.isDucking:
+            self.image = self.images[self.index]
+        else:
+            self.image = self.images1[(self.index) % 2]
+
+        self.rect = self.rect.move(self.movement)
+        self.checkbounds()
+
+        # Atualizar a pontuação com base no tempo sobrevivido
+        if not self.isDead and self.counter % 7 == 6:
+            self.score += 1
+            if self.score % 100 == 0 and self.score != 0:
+                if pygame.mixer.get_init() != None:
+                    checkPoint_sound.play()
+
+        self.counter = (self.counter + 1)
 
 # Classe GeneticAlgorithm para controlar a população
 class GeneticAlgorithm:
@@ -346,7 +405,6 @@ class GeneticAlgorithm:
         with open('best_dino_weights.json', 'w') as f:
             json.dump(best_weights.tolist(), f)
 
-
 # Função de gameplay para executar o algoritmo genético
 def gameplay_ga(ga):
     global high_score
@@ -367,6 +425,14 @@ def gameplay_ga(ga):
     Ptera.containers = pteras
     Cloud.containers = clouds
 
+    dino_player = Dino()  # Dino controlado pelo jogador
+    dino_ga = DinoGA(color=(0, 255, 0))  # Dino controlado pelo algoritmo genético
+
+    obstacle_timer = 0  # Controla o tempo entre a criação de obstáculos
+
+    player_score = 0
+    ga_score = 0
+
     while not gameQuit:
         while not gameOver:
             if pygame.display.get_surface() == None:
@@ -377,75 +443,133 @@ def gameplay_ga(ga):
                     if event.type == pygame.QUIT:
                         gameQuit = True
                         gameOver = True
+                    # Controles do dino tradicional
+                    if event.type == KEYDOWN:
+                        if event.key == K_SPACE and not dino_player.isJumping:
+                            dino_player.isJumping = True
+                            if pygame.mixer.get_init() != None:
+                                jump_sound.play()
+                            dino_player.movement[1] = -1 * dino_player.jumpSpeed
+                        if event.key == K_DOWN and not dino_player.isJumping:  # Se abaixar
+                            dino_player.duck()
 
-            # Atualiza dinossauros
-            for dino in ga.population:
-                obstacle_distance = min([c.rect.left - dino.rect.right for c in cacti] or [float('inf')])
-                
-                # Verificar se o dinossauro já está no chão antes de permitir um novo pulo
-                if not dino.isJumping and dino.decide_jump(obstacle_distance):
-                    dino.isJumping = True
-                    if pygame.mixer.get_init() != None:
-                        jump_sound.play()
-                    dino.movement[1] = -1 * dino.jumpSpeed
+                    if event.type == KEYUP:
+                        if event.key == K_DOWN:  # Levantar quando soltar a tecla
+                            dino_player.stand_up()
 
-                dino.update()
+            # Atualizar dino tradicional
+            dino_player.update()
 
-            # Atualiza obstáculos
+            # Atualiza o estado do dino controlado pelo algoritmo genético
+            obstacle_distance = min([c.rect.left - dino_ga.rect.right for c in cacti] or [float('inf')])
+            if not dino_ga.isJumping and dino_ga.decide_jump(obstacle_distance):
+                dino_ga.isJumping = True
+                if pygame.mixer.get_init() != None:
+                    jump_sound.play()
+                dino_ga.movement[1] = -1 * dino_ga.jumpSpeed
+
+            dino_ga.update()
+
+            # Atualizando a pontuação do jogador e do algoritmo
+            player_score += 1
+            ga_score += 1
+
+            # Resto da lógica de obstáculos e desenho continua a mesma
+            # Atualizar os obstáculos
             for c in cacti:
                 c.movement[0] = -1 * gamespeed
-                for dino in ga.population:
-                    if pygame.sprite.collide_mask(dino, c):
-                        dino.isDead = True
-                        if pygame.mixer.get_init() != None:
-                            die_sound.play()
+                if pygame.sprite.collide_mask(dino_player, c):
+                    dino_player.isDead = True
+                    if pygame.mixer.get_init() != None:
+                        die_sound.play()
+                if pygame.sprite.collide_mask(dino_ga, c):
+                    dino_ga.isDead = True
+                    if pygame.mixer.get_init() != None:
+                        die_sound.play()
 
             for p in pteras:
                 p.movement[0] = -1 * gamespeed
-                for dino in ga.population:
-                    if pygame.sprite.collide_mask(dino, p):
-                        dino.isDead = True
-                        if pygame.mixer.get_init() != None:
-                            die_sound.play()
+                if pygame.sprite.collide_mask(dino_player, p):
+                    dino_player.isDead = True
+                    if pygame.mixer.get_init() != None:
+                        die_sound.play()
+                if pygame.sprite.collide_mask(dino_ga, p):
+                    dino_ga.isDead = True
+                    if pygame.mixer.get_init() != None:
+                        die_sound.play()
 
-            # Desenha e atualiza a tela
+            # Geração de obstáculos
+            obstacle_timer += 1
+            if obstacle_timer > random.randint(150, 300):
+                if random.random() < 0.7:
+                    Cactus(gamespeed)
+                else:
+                    Ptera(gamespeed)
+                obstacle_timer = 0
+
+            # Atualizações de sprites e tela
+            cacti.update()
+            pteras.update()
+            clouds.update()
+
             screen.fill(background_col)
             new_ground.draw()
             clouds.draw(screen)
+
             scb.draw()
+
+            # Exibir a pontuação do jogador e do dino do algoritmo genético
+            scb.display_score(player_score, (10, 10))  # Posição no canto superior esquerdo para o jogador
+            scb.display_score(ga_score, (width - 150, 10))  # Posição no canto superior direito para o GA
+
             highsc.update(high_score)
             if high_score != 0:
                 highsc.draw()
             cacti.draw(screen)
             pteras.draw(screen)
-            for dino in ga.population:
-                dino.draw()
+
+            # Desenhar os dinossauros
+            dino_player.draw()
+            dino_ga.draw()
 
             pygame.display.update()
             clock.tick(FPS)
 
             # Verifica se o jogo terminou
-            if all(dino.isDead for dino in ga.population):
+            if dino_player.isDead and dino_ga.isDead:
                 gameOver = True
-                if any(dino.score > high_score for dino in ga.population):
-                    high_score = max(dino.score for dino in ga.population)
+                high_score = max(dino_player.score, dino_ga.score)
+
+                # Exibir a mensagem de quem venceu
+                if player_score > ga_score:
+                    display_winner("Você venceu!", screen)
+                elif ga_score > player_score:
+                    display_winner("Algoritmo Genético venceu!", screen)
+                else:
+                    display_winner("Empate!", screen)
 
             if counter % 700 == 699:
                 new_ground.speed -= 1
                 gamespeed += 1
 
-            counter = (counter + 1)
-
-        ga.evolve()  # Evolui a população
+            counter += 1
 
     pygame.quit()
 
+def display_winner(message, screen):
+    font = pygame.font.Font(None, 36)
+    text = font.render(message, True, (0, 255, 0))  # Verde para a mensagem
+    text_rect = text.get_rect(center=(width / 2, height / 2))  # Centraliza o texto na tela
+    screen.blit(text, text_rect)  # Desenha o texto na tela
+    pygame.display.update()  # Atualiza a tela para exibir o texto
+    pygame.time.delay(2000)  # Pausa por 2 segundos para que a mensagem possa ser lida
+
+    
 # Função principal para executar o jogo com algoritmo genético
 def main_ga():
     ga = GeneticAlgorithm()
     gameplay_ga(ga)
     ga.save_best_weights()
-
 
 if __name__ == "__main__":
     main_ga()
