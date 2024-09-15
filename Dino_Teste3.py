@@ -8,6 +8,8 @@ from pygame import *
 pygame.mixer.pre_init(44100, -16, 2, 2048)  # fix audio delay
 pygame.init()
 
+sprite_folder = os.path.join(os.getcwd(), 'sprites')
+
 scr_size = (width, height) = (600, 150)
 FPS = 60
 gravity = 0.6
@@ -22,9 +24,19 @@ screen = pygame.display.set_mode(scr_size)
 clock = pygame.time.Clock()
 pygame.display.set_caption("T-Rex Rush")
 
-jump_sound = pygame.mixer.Sound('sprites/jump.wav')
-die_sound = pygame.mixer.Sound('sprites/die.wav')
-checkPoint_sound = pygame.mixer.Sound('sprites/checkPoint.wav')
+# Função para carregar som com verificação se o arquivo existe
+def load_sound(sound_file):
+    sound_path = os.path.join(sprite_folder, sound_file)
+    if os.path.exists(sound_path):
+        return pygame.mixer.Sound(sound_path)
+    else:
+        print(f"Arquivo de som não encontrado: {sound_path}")
+        return None
+
+# Carregando os sons usando a função load_sound
+jump_sound = load_sound('jump.wav')
+die_sound = load_sound('die.wav')
+checkPoint_sound = load_sound('checkPoint.wav')
 
 # Função auxiliar para carregar imagem
 def load_image(name, sizex=-1, sizey=-1, colorkey=None):
