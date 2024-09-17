@@ -5,7 +5,7 @@ import random
 import numpy as np
 from pygame import *
 
-pygame.mixer.pre_init(44100, -16, 2, 2048)  # fix audio delay
+pygame.mixer.pre_init(44100, -16, 2, 2048)  # fix audio delay 
 pygame.init()
 
 scr_size = (width, height) = (600, 150)
@@ -26,7 +26,7 @@ jump_sound = pygame.mixer.Sound('sprites/jump.wav')
 die_sound = pygame.mixer.Sound('sprites/die.wav')
 checkPoint_sound = pygame.mixer.Sound('sprites/checkPoint.wav')
 
-
+# Funções de carregamento de imagem
 def load_image(name, sizex=-1, sizey=-1, colorkey=None):
     fullname = os.path.join('sprites', name)
     image = pygame.image.load(fullname)
@@ -39,8 +39,7 @@ def load_image(name, sizex=-1, sizey=-1, colorkey=None):
     if sizex != -1 or sizey != -1:
         image = pygame.transform.scale(image, (sizex, sizey))
 
-    return image, image.get_rect()
-
+    return (image, image.get_rect())
 
 def load_sprite_sheet(sheetname, nx, ny, scalex=-1, scaley=-1, colorkey=None):
     fullname = os.path.join('sprites', sheetname)
@@ -48,6 +47,7 @@ def load_sprite_sheet(sheetname, nx, ny, scalex=-1, scaley=-1, colorkey=None):
     sheet = sheet.convert()
 
     sheet_rect = sheet.get_rect()
+
     sprites = []
 
     sizex = sheet_rect.width / nx
@@ -74,50 +74,7 @@ def load_sprite_sheet(sheetname, nx, ny, scalex=-1, scaley=-1, colorkey=None):
 
     return sprites, sprite_rect
 
-
-class Scoreboard():
-    def __init__(self, x=-1, y=-1):
-        self.score = 0
-        self.tempimages, self.temprect = load_sprite_sheet('numbers.png', 12, 1, 11, int(11 * 6 / 5), -1)
-        self.image = pygame.Surface((55, int(11 * 6 / 5)))
-        self.rect = self.image.get_rect()
-        self.font = pygame.font.Font(None, 20)  # Fonte para a palavra "Score"
-        if x == -1:
-            self.rect.left = width * 0.89
-        else:
-            self.rect.left = x
-        if y == -1:
-            self.rect.top = height * 0.1
-        else:
-            self.rect.top = y
-
-    def draw(self):
-        score_text = self.font.render('Score', True, black)  # Renderizar "Score"
-        screen.blit(score_text, (self.rect.left - 100, self.rect.top))  # Desenhar "Score"
-        screen.blit(self.image, self.rect)
-
-    def update(self, score):
-        score_digits = self.extract_digits(score)
-        self.image.fill(background_col)
-        for s in score_digits:
-            self.image.blit(self.tempimages[s], self.temprect)
-            self.temprect.left += self.temprect.width
-        self.temprect.left = 0
-
-    def extract_digits(self, number):
-        if number > -1:
-            digits = []
-            while number / 10 != 0:
-                digits.append(number % 10)
-                number = int(number / 10)
-
-            digits.append(number % 10)
-            while len(digits) < 5:
-                digits.append(0)
-            digits.reverse()
-            return digits
-
-
+# Classe Dino com lógica de movimento e controle
 class Dino():
     def __init__(self, sizex=-1, sizey=-1):
         self.images, self.rect = load_sprite_sheet('dino.png', 5, 1, sizex, sizey, -1)
@@ -131,33 +88,35 @@ class Dino():
         self.isJumping = False
         self.isDead = False
         self.isDucking = False
+        self.isBlinking = False
         self.movement = [0, 0]
         self.jumpSpeed = 11.5
-        self.ground_height = int(0.98 * height)  # Altura do chão para verificação
+
+        self.stand_pos_width = self.rect.width
+        self.duck_pos_width = self.rect1.width
 
     def draw(self):
         screen.blit(self.image, self.rect)
 
     def checkbounds(self):
-        if self.rect.bottom >= self.ground_height:  # Garantir que ele não pule mais uma vez até estar no chão
-            self.rect.bottom = self.ground_height
-            self.isJumping = False  # Ele só pode pular novamente quando tocar o chão
-
-    def jump(self):
-        if not self.isJumping:  # Verificar se já está pulando
-            self.isJumping = True
-            self.movement[1] = -1 * self.jumpSpeed
-            jump_sound.play()
-
-    def duck(self, ducking):
-        self.isDucking = ducking
+        if self.rect.bottom > int(0.98 * height):
+            self.rect.bottom = int(0.98 * height)
+            self.isJumping = False
 
     def update(self):
         if self.isJumping:
-            self.movement[1] += gravity
+            self.movement[1] = self.movement[1] + gravity
 
         if self.isJumping:
             self.index = 0
+        elif self.isBlinking:
+            if self.index == 0:
+                if self.counter % 400 == 399:
+                    self.index = (self.index + 1) % 2
+            else:
+                if self.counter % 20 == 19:
+                    self.index = (self.index + 1) % 2
+
         elif self.isDucking:
             if self.counter % 5 == 0:
                 self.index = (self.index + 1) % 2
@@ -170,18 +129,23 @@ class Dino():
 
         if not self.isDucking:
             self.image = self.images[self.index]
+            self.rect.width = self.stand_pos_width
         else:
-            self.image = self.images1[self.index % 2]
+            self.image = self.images1[(self.index) % 2]
+            self.rect.width = self.duck_pos_width
 
         self.rect = self.rect.move(self.movement)
         self.checkbounds()
 
-        if not self.isJumping and not self.isDead:
-            self.score += 2  # Aumenta mais a pontuação enquanto está no chão
-        elif not self.isDead:
-            self.score += 1  # Menos pontos quando está no ar
+        if not self.isDead and self.counter % 7 == 6 and self.isBlinking == False:
+            self.score += 1
+            if self.score % 100 == 0 and self.score != 0:
+                if pygame.mixer.get_init() != None:
+                    checkPoint_sound.play()
 
+        self.counter = (self.counter + 1)
 
+# Classes de obstáculos
 class Cactus(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
@@ -196,9 +160,9 @@ class Cactus(pygame.sprite.Sprite):
 
     def update(self):
         self.rect = self.rect.move(self.movement)
+
         if self.rect.right < 0:
             self.kill()
-
 
 class Ptera(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
@@ -220,96 +184,32 @@ class Ptera(pygame.sprite.Sprite):
             self.index = (self.index + 1) % 2
         self.image = self.images[self.index]
         self.rect = self.rect.move(self.movement)
-        self.counter += 1
+        self.counter = (self.counter + 1)
         if self.rect.right < 0:
             self.kill()
 
+# Implementação do algoritmo evolutivo
+class DinoAgent:
+    def __init__(self):
+        # Rede neural simples com pesos aleatórios
+        self.weights = np.random.randn(4)  # Exemplo de 4 pesos
 
-class Ground():
-    def __init__(self, speed=-5):
-        self.image, self.rect = load_image('ground.png', -1, -1, -1)
-        self.image1, self.rect1 = load_image('ground.png', -1, -1, -1)
-        self.rect.bottom = height
-        self.rect1.bottom = height
-        self.rect1.left = self.rect.right
-        self.speed = speed
-
-    def draw(self):
-        screen.blit(self.image, self.rect)
-        screen.blit(self.image1, self.rect1)
-
-    def update(self):
-        self.rect.left += self.speed
-        self.rect1.left += self.speed
-
-        if self.rect.right < 0:
-            self.rect.left = self.rect1.right
-
-        if self.rect1.right < 0:
-            self.rect1.left = self.rect.right
-
-
-class Population:
-    def __init__(self, size, mutation_rate=0.1):
-        self.size = size
-        self.mutation_rate = mutation_rate
-        self.dinosaurs = [self.create_dino() for _ in range(size)]
-        self.scores = np.zeros(size)
-
-    def create_dino(self):
-        return Dino(44, 47)
-
-    def evaluate(self):
-        for i, dino in enumerate(self.dinosaurs):
-            if not dino.isDead:
-                self.scores[i] = dino.score
-        return self.scores
-
-    def select(self):
-        total_fitness = np.sum(self.scores)
-        
-        def select(self):
-            total_fitness = np.sum(self.scores)
-    
-        # Verifique se o total_fitness é zero
-        if total_fitness == 0:
-        # Seleciona dois pais aleatoriamente se o fitness total for zero
-            parents_idx = np.random.choice(range(self.size), size=2)
+    def decide(self, inputs):
+        result = np.dot(self.weights, inputs)
+        if result > 0.5:
+            return 'jump'
+        elif result < -0.5:
+            return 'duck'
         else:
-            selection_probs = self.scores / total_fitness
-            parents_idx = np.random.choice(range(self.size), size=2, p=selection_probs)
+            return 'run'
 
-        return self.dinosaurs[parents_idx[0]], self.dinosaurs[parents_idx[1]]
-
-    def cross_over(self, parent1, parent2):
-        child = self.create_dino()
-        child.jumpSpeed = (parent1.jumpSpeed + parent2.jumpSpeed) / 2
-        return child
-
-    def mutate(self, dino):
-        if random.random() < self.mutation_rate:
-            dino.jumpSpeed += random.uniform(-1, 1)
-        return dino
-
-    def evolve(self):
-        new_generation = []
-        for _ in range(self.size):
-            parent1, parent2 = self.select()
-            child = self.cross_over(parent1, parent2)
-            child = self.mutate(child)
-            new_generation.append(child)
-        self.dinosaurs = new_generation
-
-
-def gameplay():
-    global high_score
-    gamespeed = 4
+def evaluate_agent(agent):
+    playerDino = Dino(44, 47)
+    score = 0
     gameOver = False
-    gameQuit = False
-    population = Population(size=10)
-    new_ground = Ground(-1 * gamespeed)
-    scoreboard = Scoreboard()
+    gamespeed = 4
 
+    # Inicialização dos grupos de obstáculos
     cacti = pygame.sprite.Group()
     pteras = pygame.sprite.Group()
     last_obstacle = pygame.sprite.Group()
@@ -317,90 +217,184 @@ def gameplay():
     Cactus.containers = cacti
     Ptera.containers = pteras
 
-    counter = 0
+    while not gameOver:
+        obstacle = None
+        if len(cacti) > 0:
+            obstacle = cacti.sprites()[0]
+        elif len(pteras) > 0:
+            obstacle = pteras.sprites()[0]
 
-    while not gameQuit:
-        while not gameOver:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    gameQuit = True
-                    gameOver = True
+        # Lógica de decisão do agente: só age se um obstáculo estiver perto
+        if obstacle:
+            state = [obstacle.rect.left, obstacle.rect.bottom, gamespeed, playerDino.rect.bottom]
 
-            for dino in population.dinosaurs:
-                if not dino.isDead:
-                    # Lógica para pular ao encontrar um cacto
-                    for c in cacti:
-                        distance_to_cactus = c.rect.left - dino.rect.right
-                        if 10 < distance_to_cactus < 30 and not dino.isJumping:  # Pular apenas se não estiver no ar e detectar um cacto à frente
-                            dino.jump()
+            # Aumentamos a distância para o pulo ocorrer com antecedência suficiente
+            if isinstance(obstacle, Cactus) and obstacle.rect.left < 250:
+                action = agent.decide(state)
+                # Certifique-se de que o dinossauro está no chão antes de pular
+                if action == 'jump' and playerDino.rect.bottom == int(0.98 * height):
+                    playerDino.isJumping = True
+                    playerDino.movement[1] = -1 * playerDino.jumpSpeed
 
-                    # Lógica para abaixar ao encontrar um pterossauro em uma altura baixa
-                    for p in pteras:
-                        if p.rect.left < dino.rect.right + 50 and p.rect.centery > height * 0.75:
-                            dino.duck(True)
-                        else:
-                            dino.duck(False)
+            # Só abaixa se o obstáculo for um pterossauro e estiver voando baixo
+            elif isinstance(obstacle, Ptera) and obstacle.rect.left < 250 and obstacle.rect.centery > playerDino.rect.bottom - 30:
+                action = agent.decide(state)
+                if action == 'duck':
+                    playerDino.isDucking = True
+            else:
+                playerDino.isDucking = False
 
-            # Gerar novos cactos e pterossauros
-            if len(cacti) < 2:
-                if len(cacti) == 0:
-                    last_obstacle.empty()
-                    last_obstacle.add(Cactus(gamespeed, 40, 40))
-                else:
-                    for l in last_obstacle:
-                        if l.rect.right < width * 0.7 and random.randrange(0, 50) == 10:
-                            last_obstacle.empty()
-                            last_obstacle.add(Cactus(gamespeed, 40, 40))
+        # Atualizar o dinossauro e os obstáculos
+        playerDino.update()
+        cacti.update()
+        pteras.update()
 
-            # Adicionar pterossauro a cada 500 pontos
-            for dino in population.dinosaurs:
-                if dino.score % 500 == 0 and len(pteras) == 0:
+        # Renderização do jogo durante a avaliação do agente
+        screen.fill(background_col)
+        playerDino.draw()
+        cacti.draw(screen)
+        pteras.draw(screen)
+        pygame.display.update()
+        clock.tick(FPS)
+
+        # Checar colisões
+        for c in cacti:
+            if pygame.sprite.collide_mask(playerDino, c):
+                playerDino.isDead = True
+        for p in pteras:
+            if pygame.sprite.collide_mask(playerDino, p):
+                playerDino.isDead = True
+
+        # Terminar o jogo se o dinossauro morrer
+        if playerDino.isDead:
+            gameOver = True
+        else:
+            score += 1
+
+        # Adicionar novos obstáculos
+        if len(cacti) < 2:
+            if len(cacti) == 0:
+                last_obstacle.empty()
+                last_obstacle.add(Cactus(gamespeed, 40, 40))
+            else:
+                for l in last_obstacle:
+                    if l.rect.right < width * 0.7 and random.randrange(0, 50) == 10:
+                        last_obstacle.empty()
+                        last_obstacle.add(Cactus(gamespeed, 40, 40))
+
+        if len(pteras) == 0 and random.randrange(0, 200) == 10 and score > 500:
+            for l in last_obstacle:
+                if l.rect.right < width * 0.8:
                     last_obstacle.empty()
                     last_obstacle.add(Ptera(gamespeed, 46, 40))
 
-            pteras.update()  # Atualizar pterossauros
+    return score
 
-            for dino in population.dinosaurs:
-                dino.update()
-                scoreboard.update(dino.score)
 
-                for c in cacti:
-                    c.movement[0] = -1 * gamespeed
-                    if pygame.sprite.collide_mask(dino, c):
-                        dino.isDead = True
-                        die_sound.play()
 
-                for p in pteras:
-                    p.movement[0] = -1 * gamespeed
-                    if pygame.sprite.collide_mask(dino, p):
-                        dino.isDead = True
-                        die_sound.play()
+def select(population, fitness_scores):
+    selected = np.random.choice(population, size=2, p=fitness_scores/np.sum(fitness_scores))
+    return selected[0], selected[1]
 
-            if all([dino.isDead for dino in population.dinosaurs]):
-                population.evaluate()
-                population.evolve()
-                gameOver = True
+def crossover(parent1, parent2):
+    cut_point = np.random.randint(0, len(parent1.weights))
+    child1_weights = np.concatenate((parent1.weights[:cut_point], parent2.weights[cut_point:]))
+    child2_weights = np.concatenate((parent2.weights[:cut_point], parent1.weights[cut_point:]))
+    child1 = DinoAgent()
+    child2 = DinoAgent()
+    child1.weights = child1_weights
+    child2.weights = child2_weights
+    return child1, child2
 
-            new_ground.update()
-            cacti.update()
-            pteras.update()
+def mutate(agent, mutation_rate=0.1):
+    for i in range(len(agent.weights)):
+        if np.random.rand() < mutation_rate:
+            agent.weights[i] += np.random.randn()
+    return agent
 
+def genetic_algorithm():
+    population_size = 20
+    generations = 50
+    mutation_rate = 0.1
+    population = [DinoAgent() for _ in range(population_size)]
+
+    for generation in range(generations):
+        fitness_scores = np.array([evaluate_agent(agent) for agent in population])
+        print(f"Geração {generation}: Melhor pontuação = {np.max(fitness_scores)}")
+
+        new_population = []
+        for _ in range(population_size // 2):
+            parent1, parent2 = select(population, fitness_scores)
+            child1, child2 = crossover(parent1, parent2)
+            new_population.extend([mutate(child1, mutation_rate), mutate(child2, mutation_rate)])
+        
+        population = new_population
+
+    best_agent = population[np.argmax(fitness_scores)]
+    return best_agent
+
+# Função de tela de introdução
+# Importações e outras definições de classes, como Dino, Cactus, etc...
+
+# Função de tela de introdução
+def introscreen():
+    # Implementação da tela de introdução
+    temp_dino = Dino(44, 47)
+    temp_dino.isBlinking = True
+    gameStart = False
+
+    temp_ground, temp_ground_rect = load_sprite_sheet('ground.png', 15, 1, -1, -1, -1)
+    temp_ground_rect.left = width / 20
+    temp_ground_rect.bottom = height
+
+    logo, logo_rect = load_image('logo.png', 240, 40, -1)
+    logo_rect.centerx = width * 0.6
+    logo_rect.centery = height * 0.6
+
+    while not gameStart:
+        if pygame.display.get_surface() == None:
+            print("Nao foi possivel carregar a superficie de exibicao")
+            return True
+        else:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
+                        temp_dino.isJumping = True
+                        temp_dino.isBlinking = False
+                        temp_dino.movement[1] = -1 * temp_dino.jumpSpeed
+
+        temp_dino.update()
+
+        if pygame.display.get_surface() != None:
             screen.fill(background_col)
-            new_ground.draw()
-            cacti.draw(screen)
-            pteras.draw(screen)
-            scoreboard.draw()  # Desenhar o placar
-            for dino in population.dinosaurs:
-                dino.draw()
+            screen.blit(temp_ground[0], temp_ground_rect)
+            if temp_dino.isBlinking:
+                screen.blit(logo, logo_rect)
+            temp_dino.draw()
+
             pygame.display.update()
-            clock.tick(FPS)
 
-    pygame.quit()
+        clock.tick(FPS)
+        if temp_dino.isJumping == False and temp_dino.isBlinking == False:
+            gameStart = True
 
+    return False
 
+# Função principal de gameplay
+def gameplay(agent=None):
+    # Insira aqui a função gameplay completa que forneci anteriormente
+    # Toda a lógica de jogo, controle do dinossauro, obstáculos, e colisões.
+    pass
 
+# Função principal
 def main():
-    gameplay()
+    isGameQuit = introscreen()  # Chama a tela de introdução
+    if not isGameQuit:
+        best_dino = genetic_algorithm()  # Executa o algoritmo genético para treinar o dinossauro
+        gameplay(best_dino)  # Inicia o jogo com o melhor dinossauro
 
-
+# Execução do jogo
 main()
+
