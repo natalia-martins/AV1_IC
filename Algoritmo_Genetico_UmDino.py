@@ -268,12 +268,11 @@ class Population:
     def select(self):
         total_fitness = np.sum(self.scores)
         
-        def select(self):
-            total_fitness = np.sum(self.scores)
+    def select(self):
+        total_fitness = np.sum(self.scores)
     
-        # Verifique se o total_fitness é zero
+        # Se o total_fitness for zero, selecionar dois pais aleatoriamente
         if total_fitness == 0:
-        # Seleciona dois pais aleatoriamente se o fitness total for zero
             parents_idx = np.random.choice(range(self.size), size=2)
         else:
             selection_probs = self.scores / total_fitness
@@ -288,6 +287,7 @@ class Population:
 
     def mutate(self, dino):
         if random.random() < self.mutation_rate:
+            # Alterar a velocidade de pulo
             dino.jumpSpeed += random.uniform(-1, 1)
         return dino
 
@@ -326,20 +326,43 @@ def gameplay():
                     gameQuit = True
                     gameOver = True
 
+            # Lógica para o comportamento do dinossauro
             for dino in population.dinosaurs:
                 if not dino.isDead:
-                    # Lógica para pular ao encontrar um cacto
+                    nearest_cactus = None
+                    nearest_ptera = None
+                    cactus_distance = float('inf')
+                    ptera_distance = float('inf')
+
+                    # Encontrar o cacto mais próximo
                     for c in cacti:
                         distance_to_cactus = c.rect.left - dino.rect.right
-                        if 10 < distance_to_cactus < 30 and not dino.isJumping:  # Pular apenas se não estiver no ar e detectar um cacto à frente
-                            dino.jump()
+                        if 0 < distance_to_cactus < cactus_distance:
+                            nearest_cactus = c
+                            cactus_distance = distance_to_cactus
 
-                    # Lógica para abaixar ao encontrar um pterossauro em uma altura baixa
+                    # Encontrar o pterossauro mais próximo
                     for p in pteras:
-                        if p.rect.left < dino.rect.right + 50 and p.rect.centery > height * 0.75:
-                            dino.duck(True)
+                        distance_to_ptera = p.rect.left - dino.rect.right
+                        if 0 < distance_to_ptera < ptera_distance:
+                            nearest_ptera = p
+                            ptera_distance = distance_to_ptera
+
+                    # Decidir qual obstáculo tratar (prioriza o mais próximo)
+                    if nearest_cactus and (not nearest_ptera or cactus_distance < ptera_distance):
+                        # Priorizar o cacto se estiver mais próximo
+                        if 10 < cactus_distance < (40 + gamespeed * 2) and not dino.isJumping:
+                            dino.jump()  # Pular o cacto
+                    elif nearest_ptera:
+                        # Tratar o pterossauro se estiver mais próximo ou não houver cacto
+                        if 0 < ptera_distance < 150:
+                            if nearest_ptera.rect.centery > height * 0.75:  # Pterossauro voando baixo
+                                if not dino.isJumping:
+                                    dino.jump()  # Pular o pterossauro baixo
+                            else:
+                                dino.duck(True)  # Abaixar para pterossauro alto
                         else:
-                            dino.duck(False)
+                            dino.duck(False)  # Ficar em pé se não houver pterossauro próximo
 
             # Gerar novos cactos e pterossauros
             if len(cacti) < 2:
@@ -360,22 +383,26 @@ def gameplay():
 
             pteras.update()  # Atualizar pterossauros
 
+            # Atualizar dinossauros
             for dino in population.dinosaurs:
                 dino.update()
                 scoreboard.update(dino.score)
 
+                # Verificar colisões com cactos
                 for c in cacti:
                     c.movement[0] = -1 * gamespeed
                     if pygame.sprite.collide_mask(dino, c):
                         dino.isDead = True
                         die_sound.play()
 
+                # Verificar colisões com pterossauros
                 for p in pteras:
                     p.movement[0] = -1 * gamespeed
                     if pygame.sprite.collide_mask(dino, p):
                         dino.isDead = True
                         die_sound.play()
 
+            # Evolução dos dinossauros
             if all([dino.isDead for dino in population.dinosaurs]):
                 population.evaluate()
                 population.evolve()
@@ -385,6 +412,7 @@ def gameplay():
             cacti.update()
             pteras.update()
 
+            # Renderizar tudo
             screen.fill(background_col)
             new_ground.draw()
             cacti.draw(screen)
