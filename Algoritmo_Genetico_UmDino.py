@@ -240,6 +240,7 @@ class Cloud(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+<<<<<<< HEAD:Algoritmo_Genetico_Testes.py
 
 class Scoreboard:
     def __init__(self, x=-1, y=-1):
@@ -251,6 +252,17 @@ class Scoreboard:
         self.rect = self.image.get_rect()
         if x == -1:
             self.rect.left = WIDTH * 0.89
+=======
+    def select(self):
+        total_fitness = np.sum(self.scores)
+        
+    def select(self):
+        total_fitness = np.sum(self.scores)
+    
+        # Se o total_fitness for zero, selecionar dois pais aleatoriamente
+        if total_fitness == 0:
+            parents_idx = np.random.choice(range(self.size), size=2)
+>>>>>>> 7e8bc50231cfcc3b0c26e67a5bb95f30c6d13df3:Algoritmo_Genetico_UmDino.py
         else:
             self.rect.left = x
         if y == -1:
@@ -261,6 +273,7 @@ class Scoreboard:
     def draw(self):
         pygame.display.get_surface().blit(self.image, self.rect)
 
+<<<<<<< HEAD:Algoritmo_Genetico_Testes.py
     def update(self, score):
         score_digits = extract_digits(score)
         self.image.fill(BACKGROUND_COL)
@@ -268,6 +281,27 @@ class Scoreboard:
             self.image.blit(self.tempimages[s], self.temprect)
             self.temprect.left += self.temprect.width
         self.temprect.left = 0
+=======
+    def cross_over(self, parent1, parent2):
+        child = self.create_dino()
+        child.jumpSpeed = (parent1.jumpSpeed + parent2.jumpSpeed) / 2
+        return child
+
+    def mutate(self, dino):
+        if random.random() < self.mutation_rate:
+            # Alterar a velocidade de pulo
+            dino.jumpSpeed += random.uniform(-1, 1)
+        return dino
+
+    def evolve(self):
+        new_generation = []
+        for _ in range(self.size):
+            parent1, parent2 = self.select()
+            child = self.cross_over(parent1, parent2)
+            child = self.mutate(child)
+            new_generation.append(child)
+        self.dinosaurs = new_generation
+>>>>>>> 7e8bc50231cfcc3b0c26e67a5bb95f30c6d13df3:Algoritmo_Genetico_UmDino.py
 
 
 class MultiDinoGame:
@@ -430,9 +464,106 @@ class MultiDinoGame:
                 if event.type == pygame.QUIT:
                     running = False
 
+<<<<<<< HEAD:Algoritmo_Genetico_Testes.py
             actions = [ACTION_FORWARD]
             self.step(actions)
 
+=======
+            # Lógica para o comportamento do dinossauro
+            for dino in population.dinosaurs:
+                if not dino.isDead:
+                    nearest_cactus = None
+                    nearest_ptera = None
+                    cactus_distance = float('inf')
+                    ptera_distance = float('inf')
+
+                    # Encontrar o cacto mais próximo
+                    for c in cacti:
+                        distance_to_cactus = c.rect.left - dino.rect.right
+                        if 0 < distance_to_cactus < cactus_distance:
+                            nearest_cactus = c
+                            cactus_distance = distance_to_cactus
+
+                    # Encontrar o pterossauro mais próximo
+                    for p in pteras:
+                        distance_to_ptera = p.rect.left - dino.rect.right
+                        if 0 < distance_to_ptera < ptera_distance:
+                            nearest_ptera = p
+                            ptera_distance = distance_to_ptera
+
+                    # Decidir qual obstáculo tratar (prioriza o mais próximo)
+                    if nearest_cactus and (not nearest_ptera or cactus_distance < ptera_distance):
+                        # Priorizar o cacto se estiver mais próximo
+                        if 10 < cactus_distance < (40 + gamespeed * 2) and not dino.isJumping:
+                            dino.jump()  # Pular o cacto
+                    elif nearest_ptera:
+                        # Tratar o pterossauro se estiver mais próximo ou não houver cacto
+                        if 0 < ptera_distance < 150:
+                            if nearest_ptera.rect.centery > height * 0.75:  # Pterossauro voando baixo
+                                if not dino.isJumping:
+                                    dino.jump()  # Pular o pterossauro baixo
+                            else:
+                                dino.duck(True)  # Abaixar para pterossauro alto
+                        else:
+                            dino.duck(False)  # Ficar em pé se não houver pterossauro próximo
+
+            # Gerar novos cactos e pterossauros
+            if len(cacti) < 2:
+                if len(cacti) == 0:
+                    last_obstacle.empty()
+                    last_obstacle.add(Cactus(gamespeed, 40, 40))
+                else:
+                    for l in last_obstacle:
+                        if l.rect.right < width * 0.7 and random.randrange(0, 50) == 10:
+                            last_obstacle.empty()
+                            last_obstacle.add(Cactus(gamespeed, 40, 40))
+
+            # Adicionar pterossauro a cada 500 pontos
+            for dino in population.dinosaurs:
+                if dino.score % 500 == 0 and len(pteras) == 0:
+                    last_obstacle.empty()
+                    last_obstacle.add(Ptera(gamespeed, 46, 40))
+
+            pteras.update()  # Atualizar pterossauros
+
+            # Atualizar dinossauros
+            for dino in population.dinosaurs:
+                dino.update()
+                scoreboard.update(dino.score)
+
+                # Verificar colisões com cactos
+                for c in cacti:
+                    c.movement[0] = -1 * gamespeed
+                    if pygame.sprite.collide_mask(dino, c):
+                        dino.isDead = True
+                        die_sound.play()
+
+                # Verificar colisões com pterossauros
+                for p in pteras:
+                    p.movement[0] = -1 * gamespeed
+                    if pygame.sprite.collide_mask(dino, p):
+                        dino.isDead = True
+                        die_sound.play()
+
+            # Evolução dos dinossauros
+            if all([dino.isDead for dino in population.dinosaurs]):
+                population.evaluate()
+                population.evolve()
+                gameOver = True
+
+            new_ground.update()
+            cacti.update()
+            pteras.update()
+
+            # Renderizar tudo
+            screen.fill(background_col)
+            new_ground.draw()
+            cacti.draw(screen)
+            pteras.draw(screen)
+            scoreboard.draw()  # Desenhar o placar
+            for dino in population.dinosaurs:
+                dino.draw()
+>>>>>>> 7e8bc50231cfcc3b0c26e67a5bb95f30c6d13df3:Algoritmo_Genetico_UmDino.py
             pygame.display.update()
             self.clock.tick(self.fps)
 
