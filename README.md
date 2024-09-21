@@ -29,17 +29,19 @@ Evoluir agentes dinossauros para maximizar sua performance no jogo Dino Game ao 
 
 ### 🔹 Requisitos e Instalação
 🔸**Requisitos:**
-- Python 3
+- Python 
 - Bibliotecas necessárias:
-    - ``` git clone https://github.com/GrupoTuringCodes/chrome-trex-rush ``` 
-    - ``` cd chrome-trex-rush  ``` 
-    - ``` pip install chrome-trex-rush/  ```
+    - Background.py
+    - Brain.py
+    - Dino_Game.py
+    - Dino.py
+    - Genetic_Algorithm.py
+    - Obstacles.py
 
 <br>
 
 🔸**Instalação:**
-1. Clone o repositório:
-``` github.com/natalia-martins/TrainingTAIC.git ```
+1. Clone este repositório para executar o código.
 
 ---
 
@@ -98,7 +100,7 @@ Evoluir agentes dinossauros para maximizar sua performance no jogo Dino Game ao 
 ### 🔹 Algoritmos Genéticos Utilizados
 No projeto, foram utilizados diversos algoritmos genéticos para evoluir os dinossauros ao longo das gerações. 
 
-Os principais são:
+**Os principais são:**
 
 ### **1. Seleção Proporcional ao Fitness**
 
@@ -240,6 +242,8 @@ https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
 - O uso de uma seleção proporcional ao fitness aumentou a diversidade genética.
 
 - Não foi possível utilizar o comando ``` poetry add git+https://github.com/turing-usp/chrome-trex-rush@master ``` devido a erros durante a instalação. Entretanto, a ideia central dessa biblioteca foi aplicada no projeto.
+
+- Tínhamos a intenção de implementar o jogo utilizando apenas o melhor indivíduo desde o início, como um desafio adicional, mas não conseguimos concluir essa implementação a tempo da entrega final.
 
 --- 
 
