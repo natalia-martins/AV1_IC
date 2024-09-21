@@ -1,5 +1,5 @@
 <h1 align="center">
-    <a> 🦖 Treinamento do Dinossauro no T-Rex Rush Usando Algoritmos Genéticos 🦖 </a>
+    <a> 🦖 Treinamento do Dinossauro Dino Game Usando Algoritmos Genéticos 🦖 </a>
 </h1>
 
 
