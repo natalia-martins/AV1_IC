@@ -59,11 +59,32 @@ Abaixo está a estrutura de diretórios e arquivos do projeto, com uma breve des
 ├── chrome-trex-rush/                        # Biblioteca do jogo base clonada do repositório oficial.
 │   └── ...
 ├── imagens/                                 # Contém os arquivos de imagem (sprites) usados no jogo.
-│   ├── dino_run_0.png                       # Imagem do dinossauro correndo (frame 1).
-│   ├── dino_run_1.png                       # Imagem do dinossauro correndo (frame 2).
-│   ├── cactus_0.png                         # Imagem de obstáculos (cactos).
-│   └── ...
-├── Algoritmo_Evolutivo_DinoGame.py           # Algoritmo principal para treinar o dinossauro.
+├── dino_run_0.png                           # Imagem do dinossauro correndo (frame 1).
+├── dino_run_1.png                           # Imagem do dinossauro correndo (frame 2).
+├── cactus_0.png                             # Imagem de obstáculo (cacto 1).
+├── cactus_1.png                             # Imagem de obstáculo (cacto 2).
+├── cactus_2.png                             # Imagem de obstáculo (cacto 3).
+├── cactus_3.png                             # Imagem de obstáculo (cacto 4).
+├── cactus_4.png                             # Imagem de obstáculo (cacto 5).
+├── cactus_5.png                             # Imagem de obstáculo (cacto 6).
+├── cactus_6.png                             # Imagem de obstáculo (cacto 7).
+├── cactus_7.png                             # Imagem de obstáculo (cacto 8).
+├── cactus_8.png                             # Imagem de obstáculo (cacto 9).
+├── cactus_9.png                             # Imagem de obstáculo (cacto 10).
+├── cactus_10.png                            # Imagem de obstáculo (cacto 11).
+├── cactus_11.png                            # Imagem de obstáculo (cacto 12).
+├── cactus_12.png                            # Imagem de obstáculo (cacto 13).
+├── cactus_13.png                            # Imagem de obstáculo (cacto 14).
+├── cactus_14.png                            # Imagem de obstáculo (cacto 15).
+├── cactus_15.png                            # Imagem de obstáculo (cacto 16).
+├── cloud.png                                # Imagem de nuvem para o cenário.
+├── dino_duck_0.png                          # Imagem do dinossauro abaixado (frame 1).
+├── dino_duck_1.png                          # Imagem do dinossauro abaixado (frame 2).
+├── ground.png                               # Imagem do chão do jogo.
+├── offline-sprite-2x.png                    # Imagem usada como referência visual no modo offline.
+├── ptera_0.png                              # Imagem de obstáculo (pterossauro, frame 1).
+├── ptera_1.png                              # Imagem de obstáculo (pterossauro, frame 2).
+├── Algoritmo_Evolutivo_DinoGame.py          # Algoritmo principal para treinar o dinossauro.
 ├── Melhor_Dino.py                           # Executa o melhor dinossauro com os pesos salvos.
 ├── README.md                                # Arquivo de documentação do projeto.
 ├── Teste.py                                 # Script de teste para verificar o funcionamento.
