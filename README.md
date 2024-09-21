@@ -45,7 +45,7 @@ Evoluir agentes dinossauros para maximizar sua performance no jogo Dino Game ao 
 
 ### 🔹 Estrutura do Projeto
 
-Abaixo está a estrutura de diretórios e arquivos do projeto, com uma breve descrição de cada componente:
+🗂 Abaixo está a estrutura de diretórios e arquivos do projeto, com uma breve descrição de cada componente:
 
 ```
 .
