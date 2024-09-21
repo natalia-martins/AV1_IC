@@ -87,9 +87,7 @@ Evoluir agentes dinossauros para maximizar sua performance no jogo Dino Game ao 
 ├── ptera_0.png                              # Imagem de obstáculo (pterossauro, frame 1).
 ├── ptera_1.png                              # Imagem de obstáculo (pterossauro, frame 2).
 ├── Algoritmo_Evolutivo_DinoGame.py          # Algoritmo principal para treinar o dinossauro.
-├── Melhor_Dino.py                           # Executa o melhor dinossauro com os pesos salvos.
 ├── README.md                                # Arquivo de documentação do projeto.
-├── Teste.py                                 # Script de teste para verificar o funcionamento.
 ├── pesos_melhor_individuo.json              # Arquivo JSON contendo os pesos do melhor dinossauro.
 ```
 
