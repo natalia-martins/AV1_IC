@@ -232,12 +232,6 @@ https://github.com/user-attachments/assets/6a7ded84-c5ba-49f0-978b-e648a57c9d7c
 
 - Tínhamos a intenção de implementar o jogo utilizando apenas o melhor indivíduo desde o início, como um desafio adicional, mas não conseguimos concluir essa implementação a tempo da entrega final.
 
---- 
-
-### 🔹 Links Importantes:
-- [Biblioteca chrome-trex-rush](https://github.com/turing-usp/chrome-trex-rush/blob/master/README.md)
-- [Template de Repositório](https://github.com/ArielMAJ/python-repository-template)
-
 ---
 
 ### 🔹 Contato
