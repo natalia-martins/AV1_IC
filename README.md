@@ -198,18 +198,6 @@ A cada nova geração, o comportamento do dinossauro melhora à medida que ele s
 
 ---
 
-### 🔹 Salvar e Rodar o Melhor Dinossauro
-
-O melhor dinossauro é salvo automaticamente no arquivo "pesos_melhor_individuo.json" após cada geração. 
-
-Para rodar o melhor dinossauro:
-
-![alt text](image-9.png)
-
-Comando:  
--  ```python Melhor_Dino.py ```
-
----
 ### 🔹 Vídeos Demonstrativos
 
 🔸 **1. Início do Treinamento:**
@@ -228,7 +216,7 @@ https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
 
 
 🔸 **3. Melhor Dinossauro:**
-video
+
 
 --- 
 ### 🔹 Desafios e Aprendizados
