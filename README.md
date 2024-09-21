@@ -182,7 +182,7 @@ A cada nova geração, o comportamento do dinossauro melhora à medida que ele s
 
 3. **Resultado com 1500 pontos:** O dinossauro atingiu uma pontuação superior a 1500, resultado de uma combinação eficaz de estratégias evolutivas. A utilização de uma população relativamente grande, com 200 dinossauros por geração, permitiu uma ampla diversidade genética, proporcionando mais oportunidades de encontrar soluções eficazes para superar os desafios do jogo. Além disso, a taxa de mutação aplicada incentivou a exploração de diferentes possibilidades de comportamento, aumentando a capacidade de adaptação dos dinossauros. Por fim, o processo de reprodução, baseado na seleção dos dinossauros de maior desempenho a cada geração, garantiu que as características mais adequadas fossem transmitidas, acelerando a evolução ao longo das gerações e resultando em uma pontuação elevada.
 
-![alt text](image-10.png)
+![1500 pontos](https://github.com/user-attachments/assets/33c0bd84-8378-43dc-b8cb-b0f45790661f)
 
 4. **Resultado com mais de 10000 pontos::** O dinossauro conseguiu superar a pontuação de 10.000 pontos, o que demonstra a eficácia das técnicas evolutivas aplicadas. O uso de uma população relativamente grande, com 200 dinossauros por geração, permitiu uma diversidade genética significativa, garantindo que diferentes estratégias fossem testadas e aprimoradas ao longo do tempo. Essa diversidade proporcionou uma maior chance de explorar soluções eficientes para enfrentar os obstáculos do jogo.
 
@@ -192,7 +192,7 @@ A cada nova geração, o comportamento do dinossauro melhora à medida que ele s
     
     Esses resultados comprovam que a combinação de uma população diversificada, uma taxa de mutação adequada e uma estratégia de reprodução eficaz foi essencial para alcançar esse alto nível de desempenho no jogo.
    
-![10000 pontos](https://github.com/user-attachments/assets/36235586-3a7d-4921-8e3b-19ab860f267a)
+![10000 pontos](https://github.com/user-attachments/assets/8c21d1d3-fab4-46cc-bf40-fa1d2f68f8c5)
 
 ---
 
