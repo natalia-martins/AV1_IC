@@ -229,7 +229,7 @@ https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
 
 
 --- 
-### 🔹 Conclusão e Aprendizados
+### 🔹 Desafios e Aprendizados
 
 - Implementamos algoritmos genéticos para evoluir dinossauros no jogo T-Rex Rush.
 
@@ -239,34 +239,9 @@ https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
   
 - O uso de uma seleção proporcional ao fitness aumentou a diversidade genética.
 
+- Não foi possível utilizar o comando ``` poetry add git+https://github.com/turing-usp/chrome-trex-rush@master ``` devido a erros durante a instalação. Entretanto, a ideia central dessa biblioteca foi aplicada no projeto.
+
 --- 
-
-### 🔹 Uso
-#### 🔸 Configuração Inicial
-Antes de rodar o algoritmo genético, certifique-se de que a biblioteca chrome-trex-rush está corretamente instalada e configurada. Consulte a [documentação oficial](https://github.com/turing-usp/chrome-trex-rush/blob/master/README.md)  para obter detalhes sobre a configuração.
-
-#### 🔸 Executando o Algoritmo Genético
-1. Inicie o processo de treinamento executando o seguinte comando:
-``` python src/genetic_algorithm.py ```
-
-2. Durante o treinamento, os agentes evoluirão com base em uma função de aptidão, e você poderá observar sua melhoria ao longo das gerações.
-
-#### 🔸 Funções Principais
-- ``` DinoAgent ```: Classe que representa um dinossauro no jogo T-Rex. Os genes determinam seu comportamento e a função de aptidão mede seu desempenho.
-- ``` genetic_algorithm ```: Função principal que executa o algoritmo genético, realizando as operações de seleção, cruzamento e mutação.
-
-#### 🔸 Testes
-Para garantir que o código está funcionando corretamente, rode os testes unitários:
-``` pytest ```
-
-#### 🔸 Contribuição
-Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
-1. Faça um fork do repositório.
-2. Crie uma branch para sua feature ou correção.
-3. Implemente suas mudanças e adicione testes (se necessário).
-4. Envie um pull request com uma descrição clara das modificações.
-
----
 
 ### 🔹 Links Importantes:
 - [Biblioteca chrome-trex-rush](https://github.com/turing-usp/chrome-trex-rush/blob/master/README.md)
