@@ -139,7 +139,7 @@ A cada nova geração, o comportamento do dinossauro melhora à medida que ele s
    
 2. **Curiosidade:** No início, observamos que a mutação alta atrapalhava a convergência do treinamento. Após ajustar a magnitude da mutação, obtivemos uma evolução mais estável.
 
-3. **Resultados:** O dinossauro conseguiu superar a pontuacao de 1500, devido ao uso de uma populacao grande a cada geracao (200 dinossauros), alem de uma taxa de mutacao que permitiu explorar solucoes diversas, e a reproducao dos dinossauros que se destacaram ao decorrer de varias geracoes.
+3. **Resultados:** O dinossauro atingiu uma pontuação superior a 1500, resultado de uma combinação eficaz de estratégias evolutivas. A utilização de uma população relativamente grande, com 200 dinossauros por geração, permitiu uma ampla diversidade genética, proporcionando mais oportunidades de encontrar soluções eficazes para superar os desafios do jogo. Além disso, a taxa de mutação aplicada incentivou a exploração de diferentes possibilidades de comportamento, aumentando a capacidade de adaptação dos dinossauros. Por fim, o processo de reprodução, baseado na seleção dos dinossauros de maior desempenho a cada geração, garantiu que as características mais adequadas fossem transmitidas, acelerando a evolução ao longo das gerações e resultando em uma pontuação elevada.
 ![alt text](image-10.png)
 
 4. **Resultados:** O dinossauro conseguiu superar a pontuacao de 10000, devido ao uso de uma populacao grande a cada geracao (200 dinossauros), alem de uma taxa de mutacao que permitiu explorar solucoes diversas, e a reproducao dos dinossauros que se destacaram ao decorrer de varias geracoes.
