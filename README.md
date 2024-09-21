@@ -65,7 +65,7 @@ No projeto, foram utilizados diversos algoritmos genéticos para evoluir os dino
 
 Os principais são:
 
-**1. Seleção Proporcional ao Fitness**
+### **1. Seleção Proporcional ao Fitness**
 
 🔸 **Como funciona:** 
 
@@ -80,7 +80,7 @@ Testamos outros métodos de seleção, mas a seleção proporcional proporcionou
 
 <br>
 
-**2. Crossover Genético**
+### **2. Crossover Genético**
 
 🔸 **Como funciona:** 
 
@@ -95,7 +95,7 @@ O uso de um crossover com variação aleatória na herança (entre 0% a 100%) ga
 
 <br>
 
-**3. Mutação**
+### **3. Mutação**
 
 🔸 **Como funciona:** 
 
