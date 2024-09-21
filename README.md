@@ -161,15 +161,19 @@ Comando:
 ---
 ### 🔹 Vídeos Demonstrativos
 
-1. Início do Treinamento:
+🔸 **1. Início do Treinamento:**
+
+https://github.com/user-attachments/assets/05211b9b-a70b-4084-9baa-d01865ca3170
 
 
 
-2. Momento Avançado:
+
+🔸 **2. Momento Avançado:**
 
 
 
-3. Melhor Dinossauro:
+
+🔸 **3. Melhor Dinossauro:**
 
 
 --- 
