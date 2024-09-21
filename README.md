@@ -9,7 +9,7 @@ Este projeto utiliza algoritmos genéticos para treinar dinossauros no jogo Dino
 ---
 
 ### 🔹 Objetivo
-Evoluir agentes dinossauros para maximizar sua performance no jogo Dino Game ao longo das gerações, utilizando os conceitos de **seleção natural**,**mutação genética** e **crossover** conforme ilustrado nas imagens abaixo:
+Evoluir agentes dinossauros para maximizar sua performance no jogo Dino Game ao longo das gerações, utilizando os conceitos de **seleção natural**, **mutação genética** e **crossover** conforme ilustrado nas imagens abaixo:
 
 
 🔸**3ª Geração:**
@@ -39,13 +39,7 @@ Evoluir agentes dinossauros para maximizar sua performance no jogo Dino Game ao 
 
 🔸**Instalação:**
 1. Clone o repositório:
-``` git clone https://github.com/natalia-martins/TrainingTAIC.git ```
-
-2. Navegue até o diretório do projeto:
-``` cd TrainingTAIC ```
-
-3. Instale as dependências:
-``` pip install -r requirements.txt ```
+``` github.com/natalia-martins/TrainingTAIC.git ```
 
 ---
 
@@ -145,6 +139,11 @@ A cada nova geração, o comportamento do dinossauro melhora à medida que ele s
    
 2. **Curiosidade:** No início, observamos que a mutação alta atrapalhava a convergência do treinamento. Após ajustar a magnitude da mutação, obtivemos uma evolução mais estável.
 
+3. **Resultados:** O dinossauro conseguiu superar a pontuacao de 1500, devido ao uso de uma populacao grande a cada geracao (200 dinossauros), alem de uma taxa de mutacao que permitiu explorar solucoes diversas, e a reproducao dos dinossauros que se destacaram ao decorrer de varias geracoes.
+![alt text](image-10.png)
+
+4. **Resultados:** O dinossauro conseguiu superar a pontuacao de 10000, devido ao uso de uma populacao grande a cada geracao (200 dinossauros), alem de uma taxa de mutacao que permitiu explorar solucoes diversas, e a reproducao dos dinossauros que se destacaram ao decorrer de varias geracoes.
+
 ---
 
 ### 🔹 Salvar e Rodar o Melhor Dinossauro
@@ -183,6 +182,8 @@ https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
 ### 🔹 Conclusão e Aprendizados
 
 - Implementamos algoritmos genéticos para evoluir dinossauros no jogo T-Rex Rush.
+
+- Primeiro, optamos por utilizar um algoritmo evolutivo baseado em aprendizado por reforço, devido à sua simplicidade de implementação, mas os resultados obtidos não foram satisfatorios.
   
 - A mutação e o crossover foram ajustados para melhorar a convergência e estabilidade.
   
