@@ -191,6 +191,8 @@ A cada nova geração, o comportamento do dinossauro melhora à medida que ele s
     O processo de seleção natural, que favoreceu os dinossauros com melhor desempenho, garantiu que as características mais bem-sucedidas fossem transmitidas para as gerações seguintes. Esse ciclo contínuo de seleção, reprodução e mutação, ao          longo de diversas gerações, levou à evolução de dinossauros altamente adaptados, resultando em uma pontuação impressionante de 10.000 pontos.
     
     Esses resultados comprovam que a combinação de uma população diversificada, uma taxa de mutação adequada e uma estratégia de reprodução eficaz foi essencial para alcançar esse alto nível de desempenho no jogo.
+   
+![10000 pontos](https://github.com/user-attachments/assets/36235586-3a7d-4921-8e3b-19ab860f267a)
 
 ---
 
