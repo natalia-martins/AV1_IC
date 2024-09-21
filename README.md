@@ -52,7 +52,10 @@ Abaixo está a estrutura de diretórios e arquivos do projeto, com uma breve des
 ├── bibliotecas/                             # Contém módulos auxiliares.
 │   ├── Dino.py                              # Implementação da classe Dino e comportamento do agente.
 │   ├── Genetic_Algorithm.py                 # Implementação dos algoritmos genéticos (seleção, crossover, mutação).
-│   └── ...
+│   └── Background.py
+│   └── Brain.py
+│   └── Dino_Game.py
+│   └── Obstacles.py
 ├── chrome-trex-rush/                        # Biblioteca do jogo base clonada do repositório oficial.
 │   └── ...
 ├── imagens/                                 # Contém os arquivos de imagem (sprites) usados no jogo.
@@ -65,10 +68,6 @@ Abaixo está a estrutura de diretórios e arquivos do projeto, com uma breve des
 ├── README.md                                # Arquivo de documentação do projeto.
 ├── Teste.py                                 # Script de teste para verificar o funcionamento.
 ├── pesos_melhor_individuo.json              # Arquivo JSON contendo os pesos do melhor dinossauro.
-├── images/                                  # Capturas de tela do jogo em diferentes momentos.
-│   ├── image-1.png
-│   ├── image-2.png
-│   └── ...
 ```
 
 
