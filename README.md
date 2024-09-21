@@ -44,13 +44,34 @@ Evoluir agentes dinossauros para maximizar sua performance no jogo Dino Game ao 
 ---
 
 ### 🔹 Estrutura do Projeto
-- ``` src/ ```
-    - ``` genetic_algorithm.py ```: Implementação do algoritmo genético.
-    - ``` dino_agent.py ```: Definição da classe ``` DinoAgent ```.
-- ``` tests/ ```
-    - Testes unitários para o código.
-- ``` docs/ ```
-    - Documentação do projeto e instruções de uso.
+
+Abaixo está a estrutura de diretórios e arquivos do projeto, com uma breve descrição de cada componente:
+
+```
+.
+├── bibliotecas/                             # Contém módulos auxiliares.
+│   ├── Dino.py                              # Implementação da classe Dino e comportamento do agente.
+│   ├── Genetic_Algorithm.py                 # Implementação dos algoritmos genéticos (seleção, crossover, mutação).
+│   └── ...
+├── chrome-trex-rush/                        # Biblioteca do jogo base clonada do repositório oficial.
+│   └── ...
+├── imagens/                                 # Contém os arquivos de imagem (sprites) usados no jogo.
+│   ├── dino_run_0.png                       # Imagem do dinossauro correndo (frame 1).
+│   ├── dino_run_1.png                       # Imagem do dinossauro correndo (frame 2).
+│   ├── cactus_0.png                         # Imagem de obstáculos (cactos).
+│   └── ...
+├── Algoritmo_Evolutivo_DinoGame.py           # Algoritmo principal para treinar o dinossauro.
+├── Melhor_Dino.py                           # Executa o melhor dinossauro com os pesos salvos.
+├── README.md                                # Arquivo de documentação do projeto.
+├── Teste.py                                 # Script de teste para verificar o funcionamento.
+├── pesos_melhor_individuo.json              # Arquivo JSON contendo os pesos do melhor dinossauro.
+├── images/                                  # Capturas de tela do jogo em diferentes momentos.
+│   ├── image-1.png
+│   ├── image-2.png
+│   └── ...
+```
+
+
 
 ---
 
