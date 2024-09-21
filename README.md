@@ -200,14 +200,14 @@ A cada nova geração, o comportamento do dinossauro melhora à medida que ele s
 
 🔸 **1. Início do Treinamento:**
 
-https://github.com/user-attachments/assets/05211b9b-a70b-4084-9baa-d01865ca3170
+[https://github.com/user-attachments/assets/05211b9b-a70b-4084-9baa-d01865ca3170]
 
 
 
 
 🔸 **2. Momento Avançado:**
 
-https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
+[https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7]
 
 
 
@@ -215,7 +215,7 @@ https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
 
 🔸 **3. Melhor Dinossauro:**
 
-https://github.com/user-attachments/assets/6a7ded84-c5ba-49f0-978b-e648a57c9d7c 
+[https://github.com/user-attachments/assets/6a7ded84-c5ba-49f0-978b-e648a57c9d7c]
 
 --- 
 ### 🔹 Desafios e Aprendizados
