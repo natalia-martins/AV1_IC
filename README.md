@@ -170,6 +170,9 @@ https://github.com/user-attachments/assets/05211b9b-a70b-4084-9baa-d01865ca3170
 
 🔸 **2. Momento Avançado:**
 
+https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
+
+
 
 
 
