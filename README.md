@@ -139,11 +139,17 @@ A cada nova geração, o comportamento do dinossauro melhora à medida que ele s
    
 2. **Curiosidade:** No início, observamos que a mutação alta atrapalhava a convergência do treinamento. Após ajustar a magnitude da mutação, obtivemos uma evolução mais estável.
 
-3. **Resultados:** O dinossauro atingiu uma pontuação superior a 1500, resultado de uma combinação eficaz de estratégias evolutivas. A utilização de uma população relativamente grande, com 200 dinossauros por geração, permitiu uma ampla diversidade genética, proporcionando mais oportunidades de encontrar soluções eficazes para superar os desafios do jogo. Além disso, a taxa de mutação aplicada incentivou a exploração de diferentes possibilidades de comportamento, aumentando a capacidade de adaptação dos dinossauros. Por fim, o processo de reprodução, baseado na seleção dos dinossauros de maior desempenho a cada geração, garantiu que as características mais adequadas fossem transmitidas, acelerando a evolução ao longo das gerações e resultando em uma pontuação elevada.
+3. **Resultado com 1500 pontos:** O dinossauro atingiu uma pontuação superior a 1500, resultado de uma combinação eficaz de estratégias evolutivas. A utilização de uma população relativamente grande, com 200 dinossauros por geração, permitiu uma ampla diversidade genética, proporcionando mais oportunidades de encontrar soluções eficazes para superar os desafios do jogo. Além disso, a taxa de mutação aplicada incentivou a exploração de diferentes possibilidades de comportamento, aumentando a capacidade de adaptação dos dinossauros. Por fim, o processo de reprodução, baseado na seleção dos dinossauros de maior desempenho a cada geração, garantiu que as características mais adequadas fossem transmitidas, acelerando a evolução ao longo das gerações e resultando em uma pontuação elevada.
 
 ![alt text](image-10.png)
 
-5. **Resultados:** O dinossauro conseguiu superar a pontuacao de 10000, devido ao uso de uma populacao grande a cada geracao (200 dinossauros), alem de uma taxa de mutacao que permitiu explorar solucoes diversas, e a reproducao dos dinossauros que se destacaram ao decorrer de varias geracoes.
+4. **Resultado com mais de 10000 pontos::** O dinossauro conseguiu superar a pontuação de 10.000 pontos, o que demonstra a eficácia das técnicas evolutivas aplicadas. O uso de uma população relativamente grande, com 200 dinossauros por geração, permitiu uma diversidade genética significativa, garantindo que diferentes estratégias fossem testadas e aprimoradas ao longo do tempo. Essa diversidade proporcionou uma maior chance de explorar soluções eficientes para enfrentar os obstáculos do jogo.
+
+    Além disso, a taxa de mutação cuidadosamente ajustada foi fundamental para escapar de armadilhas locais, permitindo que o algoritmo evolutivo explorasse novos comportamentos. Essa exploração garantiu que novas variações fossem constantemente       introduzidas no pool genético, aumentando a chance de se encontrar comportamentos que maximizassem a sobrevivência e a pontuação.
+    
+    O processo de seleção natural, que favoreceu os dinossauros com melhor desempenho, garantiu que as características mais bem-sucedidas fossem transmitidas para as gerações seguintes. Esse ciclo contínuo de seleção, reprodução e mutação, ao          longo de diversas gerações, levou à evolução de dinossauros altamente adaptados, resultando em uma pontuação impressionante de 10.000 pontos.
+    
+    Esses resultados comprovam que a combinação de uma população diversificada, uma taxa de mutação adequada e uma estratégia de reprodução eficaz foi essencial para alcançar esse alto nível de desempenho no jogo.
 
 ---
 
