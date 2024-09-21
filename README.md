@@ -217,6 +217,7 @@ https://github.com/user-attachments/assets/d713b36f-1b8b-4eed-8890-12751d152bd7
 
 🔸 **3. Melhor Dinossauro:**
 
+https://github.com/user-attachments/assets/6a7ded84-c5ba-49f0-978b-e648a57c9d7c 
 
 --- 
 ### 🔹 Desafios e Aprendizados
