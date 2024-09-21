@@ -227,4 +227,5 @@ Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 Para dúvidas ou sugestões, entre em contato com:
 - 👩‍💻 natalia.santos@aln.senaicimetec.edu.br
 - 👩🏽‍💻 nathalia.leite@ba.estudante.senai.br
+- 👩‍💻 rafael.matos@aln.senaicimatec.edu.br
 <h1 align="center">
